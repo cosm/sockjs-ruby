@@ -15,7 +15,7 @@ module SockJS
 
       #Close the *response* not the *session*
       def disconnect
-        @response.finish
+        @response.finish if @response.respond_to?(:finish)
       end
 
       def heartbeat
