@@ -134,6 +134,10 @@ module SockJS
       self.set_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
     end
 
+    def set_allow_options_headers
+      self.set_header("Access-Control-Allow-Headers", "Content-Type")
+    end
+
     CONTENT_TYPES ||= {
       plain: "text/plain; charset=UTF-8",
       html: "text/html; charset=UTF-8",
