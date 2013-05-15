@@ -116,3 +116,4 @@ h1. Links
 * "SockJS: WebSocket emulation":http://www.rabbitmq.com/blog/2011/09/13/sockjs-websocket-emulation
 * "SockJS: web messaging ain't easy":http://www.rabbitmq.com/blog/2011/08/22/sockjs-web-messaging-aint-easy
 * "PubSubHuddle Realtime Web talk":http://www.rabbitmq.com/blog/2011/09/26/pubsubhuddle-realtime-web-talk
+
