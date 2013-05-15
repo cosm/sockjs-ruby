@@ -14,7 +14,7 @@ module SockJS
           response.set_access_control(request.origin)
           response.set_allow_options_post
           response.set_no_cache
-          response.write(self.info.to_json)
+          response.write(MultiJson.dump(self.info))
         end
 
         def info

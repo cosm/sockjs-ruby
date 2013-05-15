@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require "json"
+require "multi_json"
 require "sockjs/transport"
 
 module SockJS
@@ -62,7 +62,7 @@ module SockJS
       def format_frame(response, frame)
         raise TypeError.new("Payload must not be nil!") if frame.nil?
 
-        "<script>\np(#{frame.to_s.to_json});\n</script>\r\n"
+        "<script>\np(#{MultiJson.dump(frame.to_s)});\n</script>\r\n"
       end
     end
   end

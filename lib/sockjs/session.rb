@@ -228,9 +228,9 @@ module SockJS
         return []
       end
 
-      JSON.parse("[#{data}]")[0]
-    rescue JSON::ParserError => error
-      raise SockJS::InvalidJSON.new(500, "Broken JSON encoding.")
+      MultiJson.load("[#{data}]")[0]
+    rescue MultiJson::LoadError => error
+      raise SockJS::InvalidJSON.new(500, "Broken JSON encoding: #{error.message}")
     end
 
     #Timers:

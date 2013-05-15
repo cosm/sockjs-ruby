@@ -26,6 +26,15 @@ Gem::Specification.new do |s|
   s.add_dependency "faye-websocket", "~> 0.4.3"
   s.add_dependency "regin", "~> 0.3.8"
   s.add_dependency "rack-mount", "~> 0.8.3"
+  s.add_dependency "multi_json", ">=1.3.6"
+
+  begin
+    if !defined?(JRUBY_VERSION)
+      s.add_dependency("oj", ">= 2.0.12")
+    end
+  rescue
+    p "Could not detect ruby version"
+  end
 
   # Files
   s.files = %w{
