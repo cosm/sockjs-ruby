@@ -30,7 +30,7 @@ module SockJS
       # with Unicode surrogates 0xD800-0xDFFF:
       # http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters#Surrogates
       def escape(string)
-        string.encode("UTF-8", :invalid => :replace).gsub(CHARS_TO_BE_ESCAPED) do |match|
+        string.gsub(CHARS_TO_BE_ESCAPED) do |match|
           '\u%04x' % (match.ord)
         end
       end
