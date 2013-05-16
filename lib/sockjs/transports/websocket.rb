@@ -146,7 +146,7 @@ module SockJS
 
       def extract_message(event)
         SockJS.debug "Received message event: #{event.data.inspect}"
-        event.data.to_json
+        MultiJson.dump(event.data)
       end
 
       def messages_frame(websocket, messages)

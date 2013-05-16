@@ -15,7 +15,7 @@ module SockJS
 
       #Close the *response* not the *session*
       def disconnect
-        @response.finish
+        @response.finish if @response.respond_to?(:finish)
       end
 
       def heartbeat
@@ -67,7 +67,7 @@ module SockJS
         @outbox += messages
       end
 
-      def close(status = nil, message = nil)
+      def close(status = 1002, message = "Connection closed")
         @close_status = status
         @close_message = message
         transition_to(:closed)
@@ -102,7 +102,7 @@ module SockJS
         @consumer.heartbeat
       end
 
-      def close(status = nil, message = nil)
+      def close(status = 1002, message = "Connection closed")
         @close_status = status
         @close_message = message
         @consumer.closing(@close_status, @close_message)
@@ -117,6 +117,7 @@ module SockJS
         @close_message ||= "Go away!"
         clear_all_timers
         set_close_timer
+        on_close
       end
 
       def attach_consumer(response, transport)
@@ -188,6 +189,9 @@ module SockJS
     def after_app_run
     end
 
+    def on_close
+    end
+
 
     attr_accessor :disconnect_delay, :interval
     attr_reader :transport, :response, :outbox, :closing_frame, :data
@@ -215,12 +219,6 @@ module SockJS
       !!@alive
     end
 
-    #XXX This is probably important - need to examine this case
-    def on_close
-      SockJS.debug "The connection has been closed on the client side (current status: #{@status})."
-      close_session(1002, "Connection interrupted")
-    end
-
     def max_permitted_content_length
       @max_permitted_content_length ||= ($DEBUG ? 4096 : 128_000)
     end
@@ -230,9 +228,9 @@ module SockJS
         return []
       end
 
-      JSON.parse("[#{data}]")[0]
-    rescue JSON::ParserError => error
-      raise SockJS::InvalidJSON.new(500, "Broken JSON encoding.")
+      MultiJson.load("[#{data}]")[0]
+    rescue MultiJson::LoadError => error
+      raise SockJS::InvalidJSON.new(500, "Broken JSON encoding: #{error.message}")
     end
 
     #Timers:

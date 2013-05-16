@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require "json"
+require 'multi_json'
 
 module SockJS
   module Protocol
@@ -76,7 +76,7 @@ module SockJS
       attr_reader :array
 
       def to_s
-        "a#{escape(array.to_json)}"
+        "a#{escape(MultiJson.dump(array))}"
       end
     end
 

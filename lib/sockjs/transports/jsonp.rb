@@ -33,7 +33,7 @@ module SockJS
 
         # Yes, JSONed twice, there isn't a better way, we must pass
         # a string back, and the script, will be evaled() by the browser.
-        "#{response.request.callback}(#{super.chomp.to_json});\r\n"
+        "#{response.request.callback}(#{MultiJson.dump(super.chomp)});\r\n"
       end
     end
 
