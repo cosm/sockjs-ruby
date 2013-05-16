@@ -24,6 +24,12 @@ describe SockJS::Protocol do
       SockJS::Protocol::ArrayFrame.new([1, 2, 3]).to_s.should eql("a[1,2,3]")
       SockJS::Protocol::ArrayFrame.new(["tests"]).to_s.should eql('a["tests"]')
     end
+
+    it "should not blow up if passed invalid utf-8" do
+      expect {
+        SockJS::Protocol::ArrayFrame.new(["tests\255"])
+      }.to_not raise_error
+    end
   end
 
   describe "ClosingFrame" do
