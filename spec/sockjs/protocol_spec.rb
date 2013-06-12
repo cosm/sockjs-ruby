@@ -30,6 +30,10 @@ describe SockJS::Protocol do
         SockJS::Protocol::ArrayFrame.new(["tests\255"])
       }.to_not raise_error
     end
+
+    it "should still handle utf-8 strings though" do
+      SockJS::Protocol::ArrayFrame.new(["lämpö"]).to_s.should eql('a["lämpö"]')
+    end
   end
 
   describe "ClosingFrame" do
